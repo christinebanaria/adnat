@@ -1,24 +1,11 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+SQL File is in the root folder. 
 
-Things you may want to cover:
+Use 'root'@localhost' to login, no password.
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+There are 3 users. 
+Passwords are as follows:
+- Christine: bauers
+- John: p@ssw0rd
+- Erica: p@ssw0rd
