@@ -1,0 +1,16 @@
+<h1>Edit <%= @organisation.name %></h1>
+
+<%= flash[:notice] %>
+<%= @organisation.id %>
+
+<%= form_for :organisation, url: updateOrganisation_path(:id => @organisation.id) do |f| %>
+    <%= f.hidden_field 'id', value: @organisation.id %>
+
+    <%= f.label :name %>: 
+    <%= f.text_field :name, value: @organisation.name, :required => true %><br>
+    <%= f.label :hourly_rate %>: 
+    <%= f.number_field :hourly_rate, value: @organisation.hourly_rate, :required => true %><br>
+
+    <%= f.submit "Save" %>
+
+<% end %>

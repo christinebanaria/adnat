@@ -1,0 +1,49 @@
+<h1><%= link_to 'Adnat', home_path %></h1>
+
+<div class='notice' style="color:green;">
+  <%= flash[:success] if flash[:success] %>
+</div>
+
+<p>Welcome, <%= @user.name %></p>
+<p font-size=10px><%= link_to 'Log out', logout_path%></p>
+
+
+<% if @user.organisation_id==1 %>
+  <p>You aren't a member of any organisations.
+  You may join an existing one or create a new one.</p>
+
+  <h2>Organisations</h2> 
+  <ul>
+  <% for organisation in @organisations do %>
+    <% if organisation.id != 1%>
+    <p font-size=15px>
+      <%= organisation.name %> 
+      <%= link_to 'Edit', editOrganisation_path(:id => organisation.id) %>
+      <%= link_to 'Join', userJoin_path(:id => organisation.id) %>
+    </p>
+    <% end %>
+  <% end %>
+  </ul>
+
+<h2>Create Organisation</h2>
+  <form action="/newOrganisation" method='post'>
+  <input type='hidden' name="authenticity_token" value="<%= form_authenticity_token %>">
+    <div class="form-group">
+      <label for="Name">Name:</label>
+      <input type="text" name="organisation[name]">
+    </div>
+    <div class="form-group">
+      <label for="Hourly Rate">Hourly Rate:</label>
+      <input type="number" step=".1" name="organisation[hourly_rate]">
+    </div>
+
+    <button type="submit">Create and Join</button>
+  </form>
+
+<% else %>
+<%= @organisation.id %>
+<h2><%= @organisation.name %></h2>
+<%= link_to 'View Shifts', 'shifts/all' %>
+<%= link_to 'Edit', editOrganisation_path(:id => @organisation.id) %>
+<%= link_to 'Leave', userLeave_path %>
+<% end %>
