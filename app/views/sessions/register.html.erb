@@ -1,13 +1,13 @@
 <h1>Sign Up</h1>
 
 <div class='notice' style="color:tomato;"><%= flash[:notice] if flash[:notice] %></div><br>
-  <% if flash[:errors] %>
-          <% flash[:errors].each do |error| %>
-          <ul style="color:red">
-            <li><%= error %></li>
-          </ul>
-          <% end %>
-        <% end %>
+<% if flash[:errors] %>
+<% flash[:errors].each do |error| %>
+<ul style="color:red">
+  <li><%= error %></li>
+</ul>
+<% end %>
+<% end %>
 
 <form action="/new" method="post">
   <input type='hidden' name="authenticity_token" value="<%= form_authenticity_token %>">

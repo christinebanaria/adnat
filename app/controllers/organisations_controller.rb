@@ -21,7 +21,6 @@ class OrganisationsController < ApplicationController
 
   def update
     @organisation = Organisation.find_by_id(params[:id])
-    print(params[:id])
     if @organisation.update(organisation_params)
       flash[:success] = "Organisation " + params[:id] + " updated."
       redirect_to '/home'
@@ -44,5 +43,10 @@ class OrganisationsController < ApplicationController
     if !session[:user_id]
       redirect_to '/'
     end
+  end
+
+  def update_user(id)
+    @user = User.find(session[:user_id])
+    @user.update(organisation_id: id)
   end
 end

@@ -1,0 +1,17 @@
+<h1>Edit shift<h1>
+
+<%= flash[:notice] %>
+
+<%= form_for :shift, url: updateShift_path(:id => @shift.id) do |f| %>
+    <%= f.hidden_field 'id', value: @shift.id %>
+    <%= f.label :date %>: 
+    <%= f.date_field :date, value: @shift.start.strftime('%d/%m/%Y'), :required => true %><br>
+    <%= f.label :start %>: 
+    <%= f.time_field :start, value: @shift.start.strftime('%I:%M'), :required => true %><br>
+    <%= f.label :end %>: 
+    <%= f.time_field :end, value: @shift.finish.strftime('%I:%M'), :required => true %><br>
+    <%= f.label :break %>: 
+    <%= f.number_field :break_length, value: @shift.break_length, :required => true %><br>
+
+    <%= f.submit "Save" %>
+<% end %>

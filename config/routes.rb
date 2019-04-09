@@ -33,5 +33,11 @@ Rails.application.routes.draw do
 
   get '/userJoin' => 'users#joinOrganisation'
 
+  post '/createShift' => 'shifts#new'
+
+  get '/editShift' => 'shifts#edit'
+
+  post '/updateShift' => 'shifts#update'
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

@@ -3,26 +3,61 @@
 <p>Logged in as <%= @user.name %></p>
 <p font-size=10px><%= link_to 'Log out', logout_path%></p>
 
-<table border="1">
-  <thead>
-    <th>Employee name</th>
-    <th>Shft date</th>
-    <th>Start time</th>
-    <th>Finish time</th>
-    <th>Break length (minutes)</th>
-    <th>Hours Worked</th>
-    <th>Shift cost</th>
-  </thead>
-  <% for shift in @shifts do %>
-    <% for user in @users do %><% if user.id==shift.user_id %>
-  <tr>
-    <td><%= user.name %></td>
-    <td><%= shift.start.strftime('%d/%m/%Y') %></td>
-    <td><%= shift.start.strftime('%I:%M') %></td>
-    <td><%= shift.finish.strftime('%I:%M') %></td>
-    <td><%= shift.break_length%></td>
-    <td><%= shift.finish-shift.start.to_datetime %>
-  </tr>
-  <% end %><% end %>
-  <% end %>
-</table>
+
+<div class='success' style="color:green;">
+  <%= flash[:success] if flash[:success] %>
+</div>
+
+<% if flash[:errors] %>
+<% flash[:errors].each do |error| %>
+<ul style="color:red">
+  <li><%= error %></li>
+</ul>
+<% end %>
+<% end %>
+
+<form action="/createShift" method='post'>
+  <input type='hidden' name="authenticity_token" value="<%= form_authenticity_token %>">
+  <table border="1">
+    <thead>
+      <th>Employee name</th>
+      <th>Shift date</th>
+      <th>Start time</th>
+      <th>Finish time</th>
+      <th>Break length (minutes)</th>
+      <th>Hours Worked</th>
+      <th>Shift cost</th>
+      <th></th>
+    </thead>
+    <% for shift in @shifts do %>
+      <% for user in @users do %><% if user.id==shift.user_id %>
+    <tr>
+      <td><%= user.name %></td>
+      <% @shiftDate = shift.start.strftime('%d/%m/%Y') %>
+      <% @startTime = shift.start.strftime('%I:%M') %>
+      <% @endTime = shift.finish.strftime('%I:%M') %>
+      <% if shift.start < shift.finish %>
+        <% @hoursWorked = ((shift.finish-shift.start.to_time)-(shift.break_length*60))/(60*60) %>
+      <% else %>
+        <% @hoursWorked = ((shift.start-shift.finish.to_time)-(shift.break_length*60))/(60*60) %>
+      <% end %>
+      <td><%= @shiftDate %></td>
+      <td><%= @startTime %></td>
+      <td><%= @endTime %></td>
+      <td><%= shift.break_length%></td>
+      <td><%= @hoursWorked %></td>
+      <td>$<%= @hoursWorked*@organisation.hourly_rate %></td>
+      <td><%= link_to 'Edit', editShift_path(:id => shift.id)%> </td>
+    </tr>
+    <% end %><% end %>
+    <% end %>
+    <tr>
+      <td></td>
+      <td><input type="date" name="date" placeholder="YYYY-MM-DD"></td>
+      <td><input type="text" name="start" placeholder="HH-MM"></td>
+      <td><input type="text" name="end" placeholder="HH-MM"></td>
+      <td><input type="number" name="break_length"></td>
+      <td colspan="3"><button type="submit">Create</button></td>
+    </tr>
+  </table>
+</form>
